@@ -19,7 +19,7 @@ const Estudante = sequelize.define('Estudante', {
     type: DataTypes.STRING,
     allowNull: true
   },
-  dataNascimento: {
+  nascimento: {
     type: DataTypes.DATE,
     allowNull: true
   },
@@ -33,16 +33,25 @@ const Estudante = sequelize.define('Estudante', {
     validate: {
       isEmail: true
     }
-  }//,
-  //curso_id: {
-  //  type: DataTypes.INTEGER,
-  //  allowNull: true,
-  //  references: {
-  //    model: 'Cursos', // Nome da tabela referenciada
-  //    key: 'id'
-  //  }
-  //}
-
+  },
+  curso_id: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: 'Cursos',
+      key: 'id'
+    }
+  }
+}, {
+  tableName: 'estudante',
+  timestamps: false
 });
 
 module.exports = Estudante;
+
+const Curso = require('./Curso');
+Estudante.belongsTo(Curso, {
+  foreignKey: 'curso_id',
+  as: 'curso'
+});
+

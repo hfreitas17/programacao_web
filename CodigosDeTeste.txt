@@ -1,0 +1,26 @@
+
+
+{
+  "nome": "Hamilton",
+  "matricula": "00000",
+  "sexo": "Masculino",
+  "dataNascimento": "01/01/2020",
+  "telefone": "77998506771",
+  "email": "hamilton@example.com"
+}
+
+
+{
+  "nome": "Engenharia de Software",
+  "nivel": "Bacharelado",
+  "ano_inicio": "2025-02-01"
+}
+
+rota final para cadastro será:
+POST http://localhost:3000/api/cursos
+
+{
+  "nome": "Engenharia de Software",
+  "nivel": "Bacharelado",
+  "ano_inicio": "2025-02-01"
+}

@@ -5,27 +5,46 @@
 //const pool = require('../database/db');
 const Estudante = require('../models/Estudante');
 
+const { pool } = require('../database/db'); // Importa o pool de conexões do banco de dados
 
+// Função para cadastrar um estudante
 async function cadastrarEstudante(req, res) {
   const { nome, matricula, sexo, nascimento, telefone, email, curso_id } = req.body;
 
   try {
     // Verifica se matrícula já existe
-    const jaExiste = await pool.query('SELECT * FROM estudante WHERE matricula = $1', [matricula]);
-    if (jaExiste.rows.length > 0) {
+    const jaExiste = await Estudante.findOne({ where: { matricula } });
+
+    if (jaExiste) {
       return res.status(400).json({ erro: 'Matrícula já cadastrada!' });
     }
-
-    const resultado = await pool.query(
-      'INSERT INTO estudante (nome, matricula, sexo, nascimento, telefone, email, curso_id) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *',
-      [nome, matricula, sexo, nascimento, telefone, email, curso_id]
-    );
-
-    res.status(201).json(resultado.rows[0]);
+    // Cria novo estudante
+    const novoEstudante = await Estudante.create({
+      nome,
+      matricula,
+      sexo,
+      nascimento,
+      telefone,
+      email,
+      curso_id
+    });
+    res.status(201).json(novoEstudante);
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ erro: 'Erro ao cadastrar estudante.' });
+    console.error('Erro ao cadastrar estudante:', error);
+    res.status(500).json({ erro: 'Erro interno no servidor.' });
   }
 }
 
-module.exports = { cadastrarEstudante };
+// Exemplo de função para listar estudantes
+async function listarEstudantes(req, res) {
+  try {
+    const estudantes = await Estudante.findAll();
+    res.status(200).json(estudantes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ erro: 'Erro ao listar estudantes.' });
+  }
+}
+
+// Exporta a função para ser usada nas rotas
+module.exports = { cadastrarEstudante, listarEstudantes };

@@ -3,13 +3,12 @@
 
 
 const express = require('express');
-const { cadastrarEstudante } = require('../controllers/estudanteController');
+const { cadastrarEstudante, listarEstudantes } = require('../controllers/estudanteController');
 
 const router = express.Router();
 
-router.post('/estudantes', cadastrarEstudante);
-router.get('/estudantes', (req, res) => {
-  res.send('Listar todos os estudantes');
-});
+router.post('/estudantes', cadastrarEstudante); // Rota para cadastrar um estudante
+
+router.get('/estudantes', listarEstudantes); // Rota para listar todos os estudantes
 
 module.exports = router;
