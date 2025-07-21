@@ -2,7 +2,9 @@
 
 
 
-const pool = require('../database/db');
+//const pool = require('../database/db');
+const Estudante = require('../models/Estudante');
+
 
 async function cadastrarEstudante(req, res) {
   const { nome, matricula, sexo, nascimento, telefone, email, curso_id } = req.body;
