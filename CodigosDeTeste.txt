@@ -24,3 +24,13 @@ POST http://localhost:3000/api/cursos
   "nivel": "Bacharelado",
   "ano_inicio": "2025-02-01"
 }
+
+{
+  "nome": "Joao",
+  "matricula": "00006",
+  "sexo": "Masculino",
+  "dataNascimento": "28/11/2018",
+  "telefone": "77998509700",
+  "email": "teste03@example.com",
+  "curso_id": "1"
+}

@@ -48,6 +48,9 @@ function abrirFormulario(tipo) {
             const telefone = document.getElementById('telefone').value;
             const email = document.getElementById('email').value;
             const curso_id = document.getElementById('curso_id').value;
+
+            console.log(`Dados do estudante: ${nome}, ${matricula}, ${sexo}, ${nascimento}, ${telefone}, ${email}, Curso ID: ${curso_id}`);
+            
             // Validar campos obrigatórios
             if (!nome || !matricula) {
                 alert('Nome e Matrícula são obrigatórios!');
