@@ -1,5 +1,9 @@
-
-
+/*
+* Servidor Express para gerenciamento de requerimentos acadêmicos
+* Versão: 1.3
+* Data: 2023-10-01
+* autor: Hamilton Freitas
+*/
 
 
 // Dependências
