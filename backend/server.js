@@ -1,8 +1,13 @@
 /*
 * Servidor Express para gerenciamento de requerimentos acadêmicos
 * Versão: 1.3
-* Data: 2023-10-01
+* Data: 23/07/2025
 * autor: Hamilton Freitas
+*/
+
+/* O Server.js é o ponto de entrada do backend da aplicação. Ele configura e inicializa o servidor Express, define as rotas da API,
+* aplica os middlewares necessários (como CORS e JSON), serve os arquivos do frontend e realiza a conexão com o banco de dados usando Sequelize. 
+* Além disso, gerencia o roteamento para estudantes, cursos, categorias de requerimento, requerimentos e relatórios, garantindo o funcionamento integrado do sistema 
 */
 
 
@@ -18,8 +23,9 @@ const { sequelize } = require('./models');
 // Rotas
 const estudanteRoutes = require('./routes/estudanteRoutes');
 const cursoRoutes = require('./routes/cursoRoutes');
-const tipoRequerimentoRoutes = require('./routes/tipoRequerimentoRoutes');
-const statusRequerimentoRoutes = require('./routes/statusRequerimentoRoutes');
+const categoriasRequerimentoRoutes = require('./routes/categoriasRequerimentoRoutes');
+const requerimentosRoutes = require('./routes/requerimentosRoutes');
+const relatorioRoutes = require('./routes/relatorioRoutes');
 
 // Instância do Express
 const app = express();
@@ -41,8 +47,9 @@ app.get('/', (req, res) => {
 // Rotas da API
 app.use('/api', estudanteRoutes);
 app.use('/api', cursoRoutes);
-app.use('/api', tipoRequerimentoRoutes);
-app.use('/api', statusRequerimentoRoutes);
+app.use('/api', categoriasRequerimentoRoutes);
+app.use('/api', requerimentosRoutes);
+app.use('/api/relatorios', relatorioRoutes);
 
 // Fallback para rotas inexistentes
 app.use((req, res) => {
@@ -57,54 +64,3 @@ sequelize.sync().then(() => {
 }).catch((error) => {
   console.error(' Erro ao conectar ao banco de dados:', error);
 });
-
-
-
-/*
-//const sequelize = require('./database/db');
-const { sequelize, Curso, Estudante } = require('./models');
-
-const express = require('express');
-const app = express( ); // Cria uma instância do Express
-const cors = require('cors');           // CORS para permitir requisições de diferentes origens
-
-require('dotenv').config();             // Carrega variáveis de ambiente do arquivo .env
-
-app.use(cors());                            // Configura CORS para permitir requisições de diferentes origens
-app.use(express.json());
-
-const estudanteRoutes = require('./routes/estudanteRoutes');                      // Importa as rotas de estudante
-const cursoRoutes = require('./routes/cursoRoutes');                              // Importa as rotas de curso
-const tipoRequerimentoRoutes = require('./routes/tipoRequerimentoRoutes');        // Importa as rotas de tipo de requerimento
-const statusRequerimentoRoutes = require('./routes/statusRequerimentoRoutes');    // Importa as rotas de status de requerimento
-const porta = 3000;
-
-
-const path = require('path'); // Importa o módulo path para manipulação de caminhos de arquivos
-
-// Caminho absoluto até a pasta 'frontend'
-//const frontendPath = path.join(__dirname, '../frontend');
-const frontendPath = path.resolve(__dirname, '../frontend');
-
-// Servir arquivos estáticos da pasta frontend
-app.use(express.static(frontendPath));
-
-// Rota principal para servir o index.html
-app.get('/', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
-
-
-app.use('/api', estudanteRoutes);           // Define as rotas de estudante
-app.use('/api', cursoRoutes);               // Define as rotas de curso
-app.use('/api', tipoRequerimentoRoutes);    // Define as rotas de tipo de requerimento
-app.use('/api', statusRequerimentoRoutes);  // Define as rotas de status de requerimento
-
-
-sequelize.sync().then(() => {
-  app.listen(porta, () => {
-    console.log('Servidor rodando em http://localhost:3000');
-  });
-}).catch((error) => {
-  console.error('Erro ao conectar ao banco de dados:', error);
-});*/

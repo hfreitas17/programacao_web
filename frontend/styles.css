@@ -1,0 +1,16 @@
+
+
+
+
+#relatorio-container table {
+    width: 100%;
+    border-collapse: collapse;
+}
+#relatorio-container th, #relatorio-container td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+#relatorio-container th {
+    background: #f0f0f0;
+}

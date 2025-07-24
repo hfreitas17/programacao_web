@@ -1,9 +1,11 @@
+/*
+* Servidor Express para gerenciamento de requerimentos acadêmicos
+* Versão: 1.3
+* Data: 23/07/2025
+* autor: Hamilton Freitas
+*/
 
 
-
-
-//const { DataTypes } = require('sequelize');
-//const sequelize = require('../database/db');
 
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('Estudante', {
@@ -39,12 +41,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: 'Cursos',
+        model: 'cursos',
         key: 'id'
       }
     }
   }, {
-    tableName: 'estudante',
+    tableName: 'estudantes',
     timestamps: false
   });
 };

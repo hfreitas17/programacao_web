@@ -1,3 +1,13 @@
+
+<!-- O arquivo index.html é a página principal do frontend do sistema de requerimentos acadêmicos. 
+    Ele organiza a interface do usuário em seções para gestão de estudantes, cursos, categorias de requerimento, 
+    requerimentos e relatórios, além de incluir botões para cadastro, edição e geração de relatórios. 
+    Também faz a ligação com o arquivo de estilos e o script principal da aplicação. 
+ -->
+
+
+
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -9,28 +19,21 @@
 
 <body>
     <header>
-        <h1>Sistema de Requerimentos Acadêmicos</h1>
-        <nav>
-            <ul>
-                <li><a href="#estudantes">Estudantes</a></li> 
-                <li><a href="#cursos">Cursos</a></li>
-                <li><a href="#categorias">Categorias</a></li>
-                <li><a href="#requerimentos">Requerimentos</a></li>
-                <li><a href="#relatorios">Relatórios</a></li>
-            </ul>
-        </nav>
+        <h1>Sistema de Requerimentos Acadêmicos</h1>        
     </header>
 
     <main>
         <section id="estudantes">
             <h2>Gestão de Estudantes</h2>
-            <button onclick="abrirFormulario('estudante')">Cadastrar Estudante</button>
+            <button onclick="abrirFormulario('estudante')">Cadastrar Estudante</button> <b></b>
+            <button onclick="abrirFormularioEditar('estudante')">Editar</button>
             <div id="lista-estudantes"></div>
         </section>
 
         <section id="cursos">
             <h2>Gestão de Cursos</h2>
             <button onclick="abrirFormulario('curso')">Cadastrar Curso</button>
+            <button onclick="abrirFormulario('curso')">Editar</button>
             <div id="lista-cursos"></div>
         </section>
 
@@ -43,17 +46,28 @@
         <section id="requerimentos">
             <h2>Requerimentos</h2>
             <button onclick="abrirFormulario('requerimento')">Cadastrar Requerimento</button>
+            <button onclick="abrirFormularioEditar('requerimento')">Editar</button>
             <div id="lista-requerimentos"></div>
         </section>
 
         <section id="relatorios">
             <h2>Relatórios</h2>
-            <ul>
-                <li><button onclick="listarPorCurso()">Estudantes por Curso</button></li>
-                <li><button onclick="listarRequerimentos()">Todos os Requerimentos</button></li>
-                <li><button onclick="quantidadePorCurso()">Quantidade por Curso (Coordenação)</button></li>
-            </ul>
-        </section>
+
+            <section id="estudantesPorCurso" style="margin-bottom: 24px;">
+                <button onclick="gerarRelatorio('estudantesPorCurso')">Estudantes por Curso</button>
+                <div id="lista-estudantesPorCurso"></div>
+            </section>
+
+            <section id="requerimentos" style="margin-bottom: 24px;">
+                <button onclick="gerarRelatorio('requerimentos')">Todos os Requerimentos</button>
+                <div id="lista-requerimentos"></div>
+            </section>
+
+            <section id="quatRequerimentos" style="margin-bottom: 24px;">
+                <button onclick="gerarRelatorio('quatRequerimentos')">Quantidade de Requerimentos por Curso e Coordenação</button>
+                <div id="lista-quatRequerimentos"></div>
+            </section>
+
     </main>
 
     <footer>

@@ -1,49 +1,41 @@
-CREATE TABLE Curso 
-( 
- nome (único) INT,  
- ano_inicio INT,  
- nivel_ensino INT,  
- id_curso INT PRIMARY KEY,  
-); 
+- Criação do banco de dados
+CREATE DATABASE requerimentos_academicos;
+\c requerimentos_academicos
 
-CREATE TABLE Estudante 
-( 
- nome INT,  
- matricula (único) INT,  
- sexo INT,  
- data_nascimento INT,  
- telefone INT,  
- email INT,  
- id_curso (FK) INT,  
- id_estudante (PK) INT PRIMARY KEY,  
-); 
+-- Tabela de cursos
+CREATE TABLE cursos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) UNIQUE NOT NULL,    
+    nivel VARCHAR(50)
+    ano_inicio DATE,
+    curso_id INT REFERENCES estudantes(id)    
+);
 
-CREATE TABLE Categoria_requerimento 
-( 
- nome (único) INT,  
- instancia_responsavel INT,  
- id_categoria (PK) INT PRIMARY KEY,  
-); 
+-- Tabela de estudantes
+CREATE TABLE estudantes (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    matricula VARCHAR(30) UNIQUE NOT NULL,
+    sexo VARCHAR(20),
+    nascimento DATE,
+    telefone VARCHAR(20),
+    email VARCHAR(100),
+    curso_id INT REFERENCES curso(id)
+);
 
-CREATE TABLE Requerimento 
-( 
- id_estudante (FK) INT,  
- id_categoria (FK) INT,  
- data_solicitacao INT,  
- observacoes INT,  
- Status INT,  
- id_requerimento (PK) INT PRIMARY KEY,  
- idEstudante INT,  
- idCategoria_requerimento INT,  
-); 
+-- Tabela de categorias de requerimento
+CREATE TABLE categorias_requerimentos (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) UNIQUE NOT NULL,
+    instancia_responsavel VARCHAR(100)
+);
 
-CREATE TABLE Tem 
-( 
- id_estudante (PK) INT PRIMARY KEY,  
- id_curso INT PRIMARY KEY,  
-); 
-
-ALTER TABLE Requerimento ADD FOREIGN KEY(idEstudante) REFERENCES Estudante (idEstudante)
-ALTER TABLE Requerimento ADD FOREIGN KEY(idCategoria_requerimento) REFERENCES Categoria_requerimento (idCategoria_requerimento)
-ALTER TABLE Tem ADD FOREIGN KEY(id_estudante (PK)) REFERENCES Estudante (id_estudante (PK))
-ALTER TABLE Tem ADD FOREIGN KEY(id_curso) REFERENCES Curso (id_curso)
+-- Tabela de requerimentos
+CREATE TABLE requerimentos (
+    id SERIAL PRIMARY KEY,
+    data_solicitacao DATE NOT NULL,
+    observacoes TEXT,
+    estado VARCHAR(30) NOT NULL,
+    estudante_id INT REFERENCES estudantes(id),
+    categorias_requerimento_id INT REFERENCES categorias_requerimentos(id)    
+);

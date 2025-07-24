@@ -1,5 +1,9 @@
-
-
+/*
+* Servidor Express para gerenciamento de requerimentos acadêmicos
+* Versão: 1.3
+* Data: 23/07/2025
+* autor: Hamilton Freitas
+*/
 
 
 const { Curso, Estudante } = require('../models');
@@ -16,9 +20,15 @@ async function cadastrarCurso(req, res) {
     }
 
     const novoCurso = await Curso.create({ nome, nivel, ano_inicio });
-    res.status(201).json(novoCurso);
+
+    // Retorna o curso criado e uma mensagem de sucesso
+    res.status(201).json({
+      mensagem: 'Curso cadastrado com sucesso!',
+      curso: novoCurso      
+    });
+
   } catch (error) {
-    console.error('❌ Erro ao cadastrar curso:', error);
+    console.error('Erro ao cadastrar curso:', error);
     res.status(500).json({ erro: 'Erro interno ao cadastrar curso.', detalhes: error.message });
   }
 }
@@ -36,84 +46,57 @@ async function listarCursos(req, res) {
 
     res.status(200).json(cursos);
   } catch (error) {
-    console.error('❌ Erro ao listar cursos:', error);
+    console.error('Erro ao listar cursos:', error);
     res.status(500).json({ erro: 'Erro interno ao listar cursos.' });
   }
 }
 
-module.exports = {
-  cadastrarCurso,
-  listarCursos
-};
-
-/*
-const Curso = require('../models/Curso');
-const Estudante = require('../models/Estudante'); // Para incluir estudantes
-
-async function cadastrarCurso(req, res) {
+// Função para atualizar um curso
+async function atualizarCurso(req, res) {
+  const { id } = req.params;
   const { nome, nivel, ano_inicio } = req.body;
 
   try {
-    // Verifica se já existe curso com mesmo nome
-    const cursoExistente = await Curso.findOne({ where: { nome } });
-
-    if (cursoExistente) {
-      return res.status(400).json({ erro: 'Curso já cadastrado!' });
+    const curso = await Curso.findByPk(id);
+    if (!curso) {
+      return res.status(404).json({ erro: 'Curso não encontrado.' });
     }
-    const novoCurso = await Curso.create({
-      nome,
-      nivel,
-      ano_inicio
-    });
 
-    res.status(201).json(novoCurso);
+    curso.nome = nome || curso.nome;
+    curso.nivel = nivel || curso.nivel;
+    curso.ano_inicio = ano_inicio || curso.ano_inicio;
+
+    await curso.save();
+    res.status(200).json(curso);
   } catch (error) {
-    console.error('Erro ao cadastrar curso:', error);
-    res.status(500).json({ erro: 'Erro interno no servidor.' });
+    console.error('Erro ao atualizar curso:', error);
+    res.status(500).json({ erro: 'Erro interno ao atualizar curso.' });
   }
 }
 
-// Função para listar cursos
-async function listarCursos(req, res) {
+// Função para deletar um curso
+async function deletarCurso(req, res) {
+  const { id } = req.params;
+
   try {
-    const cursos = await Curso.findAll({
-      include: {
-        model: Estudante,
-        as: 'estudantes'
-      }
-    });
+    const curso = await Curso.findByPk(id);
+    if (!curso) {
+      return res.status(404).json({ erro: 'Curso não encontrado.' });
+    }
 
-    res.status(200).json(cursos);
+    await curso.destroy();
+    res.status(204).send();
   } catch (error) {
-    console.error('Erro ao listar cursos:', error);
-    res.status(500).json({ erro: 'Erro interno no servidor.' });
+    console.error('Erro ao deletar curso:', error);
+    res.status(500).json({ erro: 'Erro interno ao deletar curso.' });
   }
 }
+
 
 module.exports = {
   cadastrarCurso,
-  listarCursos
+  listarCursos,
+  atualizarCurso,
+  deletarCurso
 };
 
-*/
-/*const Curso = require('../models/Curso');
-
-async function cadastrarCurso(req, res) {
-  try {
-    const curso = await Curso.create(req.body);
-    res.status(201).json(curso);
-  } catch (error) {
-    res.status(400).json({ erro: error.message });
-  }
-}
-
-async function listarCursos(req, res) {
-  try {
-    const cursos = await Curso.findAll();
-    res.status(200).json(cursos);
-  } catch (error) {
-    res.status(500).json({ erro: 'Erro ao listar cursos.' });
-  }
-}
-
-module.exports = { cadastrarCurso, listarCursos };*/
