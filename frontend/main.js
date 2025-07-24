@@ -572,7 +572,6 @@ async function gerarRelatorio(tipo) {
             console.log('Curso ID:', curso_id);
             console.log('Instância Responsável:', instancia_responsavel);
 
-
             if (!curso_id) {
                 alert('Selecione um curso!');
                 return;
@@ -627,9 +626,7 @@ async function gerarRelatorio(tipo) {
             // Abre a página de relatórios em uma nova aba
             window.open('relatorios.html', '_blank');
         }
-
-    }
-    
+    }    
 }
 
 function fecharModal() {

@@ -35,14 +35,38 @@ async function cadastrarRequerimento(req, res) {
 
 // Função para listar requerimentos com filtros opcionais
 async function listarRequerimentos(req, res) {
-  try {
-    const { curso_id, instancia_responsavel, id } = req.query;
+    try {
+      const { curso_id, instancia_responsavel, id } = req.query;
 
-    const where = {};
-    if (id) {
-      where.id = id;
-    }
-
+      const where = {};
+      if (id) {
+        where.id = id;
+      }
+      const requerimentos = await Requerimento.findAll({
+        include: [
+          {
+            model: Estudante,
+            as: 'estudante',
+            required: true, // importante!
+            attributes: ['nome', 'matricula'],
+            where: curso_id ? { curso_id } : undefined, // filtro aqui!
+            include: [
+              {
+                model: Curso,
+                as: 'curso',
+                attributes: ['nome']
+              }
+            ]
+          },
+          {
+            model: CategoriasRequerimento,
+            as: 'categorias_requerimento',
+            attributes: ['nome', 'instancia_responsavel'],
+            where: instancia_responsavel ? { instancia_responsavel } : undefined
+          }
+        ]
+      });
+    /*
     const requerimentos = await Requerimento.findAll({
       where,
       include: [
@@ -69,7 +93,7 @@ async function listarRequerimentos(req, res) {
         }
       ]
     });
-
+    */
     return res.status(200).json(requerimentos);
   } catch (error) {
     console.error('Erro ao listar requerimentos:', error);
